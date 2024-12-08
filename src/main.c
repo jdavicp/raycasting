@@ -64,8 +64,8 @@ void draw_player(const Player *player)
 }
 void draw_ray(const Segment* ray)
 {
-  Vector2 ray_end = (Vector2){ray->end.x + 10, ray->end.y + 10};
-  DrawLineV(ray->origin, );
+  Vector2 ray_end = (Vector2){ray->direction.x * 10, ray->direction.y * 10};
+  DrawLineV(ray->origin, ray_end, (Color){0, 255, 0, 255});
 }
 int main(int argc, [[maybe_unused]]char *argv[argc + 1])
 {
@@ -74,11 +74,16 @@ int main(int argc, [[maybe_unused]]char *argv[argc + 1])
 	.origin=(Vector2){WIDTH/2.0f - 10.f, HEIGHT/2.0f - 10.f},
 	.fov=60.0f
   };
+  Segment ray = (Segment){
+	.origin=player.origin,
+	.direction=(Vector2){1.f, -1.f},
+  };
   while(!WindowShouldClose())
   {
 	BeginDrawing();
 	ClearBackground((Color){0, 0, 0, 255});
 	draw_2d_map();
+	draw_ray(&ray);
 	draw_player(&player);
 	EndDrawing();
 	
